@@ -47,12 +47,44 @@
     reveal(true);
   }));
 
-  // mute toggle
+  /*
+   Enhanced audio handling
+   - remember when the user explicitly started playback (userPlayed)
+   - attempt to resume when the page becomes visible again (best-effort; browsers may suspend in background)
+   - provide an extra touchstart fallback to resume audio after external navigation back to the tab
+  */
+  let userPlayed = false;
+  function markUserPlayed(){ userPlayed = true; if(bg) bg.setAttribute('data-user-played','1'); }
+
+  // mute / play toggle (improved UX + state tracking)
   muteBtn && muteBtn.addEventListener('click', ()=>{
     if(!bg) return;
-    if(bg.paused){ bg.play().catch(()=>{}); muteBtn.setAttribute('aria-pressed','false'); }
-    else { bg.pause(); muteBtn.setAttribute('aria-pressed','true'); }
+    if(bg.paused){
+      bg.play().then(()=> markUserPlayed()).catch(()=>{});
+      muteBtn.setAttribute('aria-pressed','false');
+    } else {
+      bg.pause();
+      muteBtn.setAttribute('aria-pressed','true');
+    }
   });
+
+  // resume audio when returning to the page if the user already started playback (best-effort)
+  document.addEventListener('visibilitychange', ()=>{
+    try{
+      if(document.visibilityState === 'visible'){
+        if(bg && (userPlayed || bg.getAttribute('data-user-played')==='1')){
+          bg.play().catch(()=>{});
+        }
+      }
+    }catch(e){}
+  });
+
+  // mobile: try resuming on the next user touch if audio was previously started
+  ['touchstart','pointerdown','click'].forEach(ev => document.addEventListener(ev, function _tryResumeOnGesture(){
+    if(!bg) return document.removeEventListener(ev, _tryResumeOnGesture);
+    if((userPlayed || bg.getAttribute('data-user-played')==='1') && bg.paused){ bg.play().catch(()=>{}); }
+    document.removeEventListener(ev, _tryResumeOnGesture);
+  }, { passive: true }));
 
   // share
   shareBtn && shareBtn.addEventListener('click', async ()=>{
@@ -69,11 +101,25 @@
   replay && replay.addEventListener('click', ()=>{
     // quick scroll to top + replay subtle animations
     window.scrollTo({ top: 0, behavior: prefersReduce ? 'auto' : 'smooth' });
-    if(bg){ bg.currentTime = 0; bg.play().catch(()=>{}); }
+    if(bg){ bg.currentTime = 0; bg.play().then(()=> markUserPlayed()).catch(()=>{}); }
     // re-run observers
     document.querySelectorAll('[data-animate]').forEach(el=> el.classList.remove('in'));
     setTimeout(()=> initObservers(), 200);
   });
+
+  /*
+   Safety: prevent any accidental automatic navigation to the Questions page
+   (there were no auto-redirects here previously; this guard only blocks unexpected programmatic navigation)
+  */
+  (function preventUnexpectedQuestionsRedirect(){
+    const originalAssign = location.assign.bind(location);
+    const originalReplace = location.replace.bind(location);
+    const shouldBlock = url => typeof url === 'string' && url.indexOf('questions.html') > -1;
+    location.assign = function(u){ if(shouldBlock(u)) return console.warn('Blocked unexpected navigation to', u); return originalAssign(u); };
+    location.replace = function(u){ if(shouldBlock(u)) return console.warn('Blocked unexpected navigation to', u); return originalReplace(u); };
+    const pushState = history.pushState.bind(history);
+    history.pushState = function(s,title,u){ if(shouldBlock(u)) return console.warn('Blocked history.pushState ->', u); return pushState(s,title,u); };
+  })();
 
   /* -------------------- fade-in on scroll -------------------- */
   function initObservers(){
