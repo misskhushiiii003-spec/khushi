@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Birthday — Best Friend</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main class="card">
+
+    <!-- Hero / typing -->
+    <section class="hero">
+      <div>
+        <h1 class="typing">Our First Journey 🌱</h1>
+        <p class="lead">From strangers to best friends — every laugh, every moment, all of it matters to me.</p>
+      </div>
+      <div class="music-cta">
+        <button id="musicBtn" aria-pressed="false" aria-label="Play background music">🎵 Play Music</button>
+      </div>
+    </section>
+
+    <!-- Memories slideshow -->
+    <section class="section">
+      <h2>Our Memories 📸</h2>
+      <div class="slideshow" aria-roledescription="carousel" aria-label="Memory slideshow">
+        <button class="slide-nav prev" aria-label="Previous slide">◀</button>
+        <div class="slides-wrap">
+          <img src="img1.jpg" class="slide active" alt="memory 1" onerror="this.src='https://source.unsplash.com/1200x800/?friends,party'">
+          <img src="img2.jpg" class="slide" alt="memory 2" onerror="this.src='https://source.unsplash.com/1200x800/?friends,cake'">
+          <img src="img3.jpg" class="slide" alt="memory 3" onerror="this.src='https://source.unsplash.com/1200x800/?friends,celebration'">
+        </div>
+        <button class="slide-nav next" aria-label="Next slide">▶</button>
+        <div class="slide-dots" role="tablist" aria-label="Slide indicators"></div>
+      </div>
+    </section>
+
+    <!-- Message -->
+    <section class="section">
+      <h2>Your Importance 🌟</h2>
+      <p>You are my comfort person — my constant. Life feels incomplete without you.</p>
+    </section>
+
+    <!-- Future + CTA -->
+    <section class="section">
+      <h2>Our Future 🚀</h2>
+      <p>More memories. More dreams. More birthdays together 🎂</p>
+      <h3 class="closing">Happy Birthday, My Moon ❤️</h3>
+      <div class="cta"><a class="primary" href="questions.html">Answer the questions 💬</a></div>
+    </section>
+
+    <footer class="foot">Tip: replace `img1.jpg`/`music.mp3` with your own files to personalize.</footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
