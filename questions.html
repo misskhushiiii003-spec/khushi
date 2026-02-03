@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Questions — Saurabh</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{ --accent: #0b74de; --text: #0f2a44; }
+    html,body{height:100%;margin:0;font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial;background:#f3f8ff;color:var(--text);}
+    .wrap{max-width:880px;margin:28px auto;padding:22px;background:linear-gradient(180deg,#fff,#fbfdff);border-radius:16px;box-shadow:0 18px 60px rgba(12,20,40,0.08)}
+    .top{display:flex;align-items:center;gap:14px;justify-content:space-between}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(180deg,#e6f1ff,#d9ecff);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);box-shadow:0 8px 30px rgba(11,116,222,0.06)}
+    h1{margin:0;font-size:20px;color:var(--text)}
+    p.lead{margin:6px 0 18px;color:rgba(15,42,68,0.7)}
+
+    /* questions */
+    .questions{margin-top:4px}
+    .q-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+    .q-btn{width:100%;text-align:left;background:transparent;border:1px solid rgba(11,116,222,0.08);padding:14px;border-radius:12px;font-weight:700;color:var(--accent);cursor:pointer}
+    .q-act{margin-top:8px;display:flex;flex-direction:column;gap:8px}
+    .q-act textarea{min-height:64px;padding:10px;border-radius:8px;border:1px solid rgba(15,42,68,0.06);resize:vertical}
+    .q-act input{padding:10px;border-radius:8px;border:1px solid rgba(15,42,68,0.06)}
+    .q-actions{display:flex;gap:8px}
+    .q-actions .save{background:linear-gradient(90deg,#0b74de,#66a9ff);border:0;color:#fff;padding:8px 10px;border-radius:8px;cursor:pointer}
+    .q-actions .clear{background:transparent;border:1px solid rgba(15,42,68,0.08);padding:8px 10px;border-radius:8px;cursor:pointer}
+    .q-footer{font-size:13px;color:rgba(15,42,68,0.55);margin-top:8px}
+
+    .tools{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
+    .btn{background:linear-gradient(90deg,#0b74de,#66a9ff);border:0;color:#fff;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer;box-shadow:0 12px 36px rgba(11,116,222,0.08)}
+    .muted{background:linear-gradient(90deg,#eef6ff,#f6fbff);color:var(--accent);box-shadow:none;border:1px solid rgba(11,116,222,0.06)}
+
+    footer{margin-top:18px;font-size:13px;color:rgba(15,42,68,0.55);text-align:center}
+    @media (max-width:560px){.logo{width:48px;height:48px}.q-act textarea{min-height:48px}}
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main" aria-label="Questions for Saurabh">
+    <div class="top">
+      <div class="brand">
+        <div class="logo">SB</div>
+        <div>
+          <h1>Answer these — make it special</h1>
+          <p class="lead">Your answers are saved locally on this device. You can export them or clear anytime.</p>
+        </div>
+      </div>
+      <div class="tools">
+        <a href="/" class="btn muted" aria-label="Back to wish page">Back to wish</a>
+        <button id="exportAnswersTop" class="btn">Export answers</button>
+      </div>
+    </div>
+
+    <div class="questions" aria-live="polite">
+      <ul class="q-list" id="qList">
+        <li data-qid="q1">
+          <button class="q-btn">1. How's this — did you like it?</button>
+          <div class="q-act" hidden>
+            <textarea placeholder="Write your answer..." data-q="q1"></textarea>
+            <div class="q-actions"><button class="save">Save</button><button class="clear">Clear</button></div>
+            <div class="saved" aria-live="polite"></div>
+          </div>
+        </li>
+        <li data-qid="q2">
+          <button class="q-btn">2. Will you be with me till your next birthday to play this game more?</button>
+          <div class="q-act" hidden>
+            <textarea placeholder="Write your answer..." data-q="q2"></textarea>
+            <div class="q-actions"><button class="save">Save</button><button class="clear">Clear</button></div>
+            <div class="saved" aria-live="polite"></div>
+          </div>
+        </li>
+        <li data-qid="q3">
+          <button class="q-btn">3. When are we meeting to celebrate your day?</button>
+          <div class="q-act" hidden>
+            <input type="text" placeholder="Date / time / place" data-q="q3">
+            <div class="q-actions"><button class="save">Save</button><button class="clear">Clear</button></div>
+            <div class="saved" aria-live="polite"></div>
+          </div>
+        </li>
+        <li data-qid="q4">
+          <button class="q-btn">4. What do you want as a gift?</button>
+          <div class="q-act" hidden>
+            <input type="text" placeholder="Gift ideas..." data-q="q4">
+            <div class="q-actions"><button class="save">Save</button><button class="clear">Clear</button></div>
+            <div class="saved" aria-live="polite"></div>
+          </div>
+        </li>
+        <li data-qid="q5">
+          <button class="q-btn">5. Where do you wanna go and celebrate?</button>
+          <div class="q-act" hidden>
+            <input type="text" placeholder="Place / city..." data-q="q5">
+            <div class="q-actions"><button class="save">Save</button><button class="clear">Clear</button></div>
+            <div class="saved" aria-live="polite"></div>
+          </div>
+        </li>
+      </ul>
+
+      <div class="q-footer">Answers are stored locally — use the <strong>Export</strong> button to copy them.</div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:18px"><button id="exportAnswers" class="btn">Export answers</button><button id="clearAll" class="btn muted">Clear all</button></div>
+    </div>
+
+    <footer>Made with ♥ — edit `questions.html` to change the prompts.</footer>
+  </div>
+
+  <script>
+    (function(){
+      const qList = document.getElementById('qList');
+      function loadAnswer(key){ try{ return localStorage.getItem(key) || ''; }catch(e){return '';}}
+      function saveAnswer(key,val){ try{ localStorage.setItem(key,val); return true;}catch(e){return false} }
+      function clearAnswer(key){ try{ localStorage.removeItem(key); return true;}catch(e){return false} }
+      qList.querySelectorAll('li').forEach(li=>{
+        const btn = li.querySelector('.q-btn');
+        const panel = li.querySelector('.q-act');
+        const input = panel.querySelector('[data-q]');
+        const saved = panel.querySelector('.saved');
+        const qKey = input.dataset.q;
+        const v = loadAnswer(qKey);
+        if(v) { input.value = v; saved.textContent = 'Saved — '+ (v.length>60? v.slice(0,57)+'...': v); }
+        btn.addEventListener('click', ()=>{ panel.hidden = !panel.hidden; if(!panel.hidden) input.focus(); });
+        panel.querySelector('.save').addEventListener('click', ()=>{
+          const val = input.value.trim();
+          if(!val) { saved.textContent = 'Please enter an answer.'; return; }
+          saveAnswer(qKey, val);
+          saved.textContent = 'Saved — '+ (val.length>60? val.slice(0,57)+'...': val);
+        });
+        panel.querySelector('.clear').addEventListener('click', ()=>{
+          input.value = '';
+          clearAnswer(qKey);
+          saved.textContent = 'Cleared.';
+        });
+      });
+      function exportAnswers(){
+        const out = {};
+        qList.querySelectorAll('[data-q]').forEach(inp=> out[inp.dataset.q] = loadAnswer(inp.dataset.q) || '');
+        const txt = JSON.stringify(out, null, 2);
+        return txt;
+      }
+      document.getElementById('exportAnswers').addEventListener('click', ()=>{
+        const txt = exportAnswers();
+        navigator.clipboard?.writeText(txt).then(()=> alert('Answers copied to clipboard (JSON).'), ()=> alert('Could not copy — your answers are shown in a dialog.\n\n'+txt));
+      });
+      document.getElementById('exportAnswersTop').addEventListener('click', ()=> document.getElementById('exportAnswers').click());
+      document.getElementById('clearAll').addEventListener('click', ()=>{
+        if(!confirm('Clear all saved answers from this browser?')) return;
+        qList.querySelectorAll('[data-q]').forEach(inp=> clearAnswer(inp.dataset.q));
+        qList.querySelectorAll('.saved').forEach(s=> s.textContent = 'Cleared.');
+      });
+    })();
+  </script>
+</body>
+</html>

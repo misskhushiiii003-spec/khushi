@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Birthday — Saurabh!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --accent: #0b74de;
+      --card-bg: rgba(255,255,255,0.95);
+      --glass: rgba(255,255,255,0.7);
+      --text: #0f2a44;
+    }
+    html,body{height:100%;margin:0;font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial;}
+    body{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      background-color:#f3f8ff;
+      background-image:
+        linear-gradient(180deg, rgba(0,0,0,0.08), rgba(255,255,255,0.02)),
+        url("https://source.unsplash.com/1800x1200/?birthday,boy,blue,balloons,cake");
+      background-size:cover;
+      background-position:center;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:920px;
+      position:relative;
+    }
+
+    .card{
+      background: linear-gradient(90deg, rgba(255,255,255,0.96), rgba(255,250,250,0.9));
+      padding:28px;
+      border-radius:16px;
+      box-shadow: 0 12px 40px rgba(12,10,10,0.12);
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+      backdrop-filter: blur(6px) saturate(1.05);
+    }
+
+    .top-badge{
+      display:inline-block;
+      background:var(--glass);
+      color:var(--accent);
+      padding:8px 14px;
+      border-radius:999px;
+      font-weight:700;
+      font-size:14px;
+      margin-bottom:12px;
+      box-shadow:0 6px 18px rgba(139,47,107,0.06);
+    }
+
+    h1{
+      margin:8px 0 12px;
+      color:var(--accent);
+      font-size:30px;
+      letter-spacing:0.2px;
+    }
+
+    p.lead{
+      margin:0 auto;
+      max-width:760px;
+      color:var(--text);
+      font-size:18px;
+      line-height:1.6;
+      white-space:pre-wrap;
+    }
+
+    .meta{
+      margin-top:16px;
+      font-size:13px;
+      color:rgba(43,22,48,0.65);
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+
+    .btn {
+      background:linear-gradient(90deg,#ff8aa3,#ffcf5c);
+      border:0;
+      padding:10px 14px;
+      border-radius:10px;
+      color:white;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    }
+
+    #confetti{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+    }
+
+    /* Music / YouTube control */
+    .audio-control{
+      position:absolute;
+      right:16px;
+      top:16px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      z-index:10;
+    }
+    .audio-btn{
+      background: rgba(255,255,255,0.95);
+      border: none;
+      padding:8px 12px;
+      border-radius:10px;
+      font-weight:700;
+      color:var(--accent);
+      cursor:pointer;
+      box-shadow: 0 6px 18px rgba(139,47,107,0.06);
+    }
+    .audio-note{
+      font-size:12px;
+      color:rgba(43,22,48,0.6);
+      padding:6px 8px;
+      border-radius:8px;
+      background: rgba(255,255,255,0.6);
+    }
+
+    /* mobile */
+    @media (max-width:560px){
+      .card{padding:18px;border-radius:12px;}
+      h1{font-size:22px;}
+      p.lead{font-size:16px;padding:0 6px;}
+      .audio-control{right:10px;top:10px;}
+    }
+
+    .attribution{
+      margin-top:10px;
+      font-size:12px;
+      color:rgba(43,22,48,0.55);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main" aria-label="Birthday highlight">
+    <canvas id="hearts" width="1600" height="900" aria-hidden="true" aria-label="Decorative falling hearts" style="position:absolute;inset:0;pointer-events:none;z-index:0;opacity:0.95"></canvas>
+    <canvas id="confetti" width="1600" height="900" aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;z-index:1"></canvas>
+
+    <div class="audio-control" aria-hidden="false">
+      <button id="ytToggle" class="audio-btn" aria-pressed="false" aria-label="Toggle background music">🔊 Unmute</button>
+      <div class="audio-note" id="audioNote">Playing: Baar Baar Din Ye Aaye (YouTube)</div>
+    </div>
+
+    <div class="card" role="region" aria-label="Birthday message">
+      <div class="top-badge">Special Day ✨</div>
+      <h1>Hey — it's your day, Saurabh! 🎂</h1>
+
+      <p class="lead" id="message">
+        Hey, welcome to my little khurafaat.<br>
+      It’s your birthday today haha, happy happy birthday beta.<br>
+      Hamesha khushi rahiye, healthy rahiye, aise hi sexy lagte rahiye.<br>
+      Wishing you immense happiness on your way, betuu—every time, every way.<br>
+      It’s only you. I have nothing, nothing… matlab kuchhhh bhiii nahiii without you.<br>
+      Whatever is there, I always think about you.<br>
+      I don’t know how much I mean to you, but for me, you are over everything.
+      </p>
+
+      <!-- SLIDESHOW: Cakes + Wishes -->
+      <section class="slideshow" aria-label="Birthday slideshows">
+        <div class="slideshow-controls" role="tablist" aria-label="Choose slideshow">
+          <button role="tab" aria-selected="true" data-target="cakes" class="sl-tab">Cakes</button>
+          <button role="tab" aria-selected="false" data-target="wishes" class="sl-tab">Wishes</button>
+        </div>
+
+        <div class="sl-wrap" id="cakes" role="group" aria-roledescription="carousel" aria-label="Cake images" tabindex="0">
+          <div class="carousel" data-autoplay="true" data-interval="3500">
+            <button class="prev" aria-label="Previous cake">◀</button>
+            <ul class="slides">
+              <li><img loading="lazy" alt="Chocolate layered birthday cake" src="https://images.unsplash.com/photo-1542826438-9f2d9e0a0a1c?q=80&w=1200&auto=format&fit=crop"></li>
+              <li><img loading="lazy" alt="Birthday cake with candles" src="https://images.unsplash.com/photo-1505250469679-203ad9ced0cb?q=80&w=1200&auto=format&fit=crop"></li>
+              <li><img loading="lazy" alt="Colorful celebration cake" src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1200&auto=format&fit=crop"></li>
+              <li><img loading="lazy" alt="Slice of birthday cake on plate" src="https://images.unsplash.com/photo-1523986371872-9d3ba2e2f642?q=80&w=1200&auto=format&fit=crop"></li>
+              <li><img loading="lazy" alt="Minimalist birthday cake" src="https://images.unsplash.com/photo-1523987355523-c7b5b5f8a6d6?q=80&w=1200&auto=format&fit=crop"></li>
+            </ul>
+            <button class="next" aria-label="Next cake">▶</button>
+            <div class="indicators" aria-hidden="false"></div>
+          </div>
+        </div>
+
+        <div class="sl-wrap" id="wishes" role="group" aria-roledescription="carousel" aria-label="Birthday wishes" hidden tabindex="0">
+          <div class="carousel" data-autoplay="true" data-interval="4200">
+            <button class="prev" aria-label="Previous wish">◀</button>
+            <ul class="slides">
+              <li><img loading="lazy" alt="Handwritten birthday card: Happy Birthday" src="https://images.unsplash.com/photo-1520962911638-6b9f7b9b6d6a?q=80&w=1200&auto=format&fit=crop"></li>
+              <li><img loading="lazy" alt="Birthday greeting card with florals" src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop"></li>
+              <li><img loading="lazy" alt="Colorful hand-lettered birthday wish" src="https://images.unsplash.com/photo-1529070538774-1843cb3265df?q=80&w=1200&auto=format&fit=crop"></li>
+              <li><img loading="lazy" alt="Cute illustrated birthday card" src="https://images.unsplash.com/photo-1505575974970-5f8b6b6f2f7e?q=80&w=1200&auto=format&fit=crop"></li>
+              <li><img loading="lazy" alt="Birthday note with confetti" src="https://images.unsplash.com/photo-1517959105824-5f0d3f9d5c9a?q=80&w=1200&auto=format&fit=crop"></li>
+            </ul>
+            <button class="next" aria-label="Next wish">▶</button>
+            <div class="indicators" aria-hidden="false"></div>
+          </div>
+        </div>
+
+        <div class="sl-help">Tip: click an image to open in a new tab. Replace these images with your own or with images from Google (ensure you have the right to use them).</div>
+      </section>
+
+      <div style="text-align:center;margin:16px 0 6px">
+        <a href="questions.html" class="btn" id="goQuestions">Answer the questions 💬</a>
+        <div style="margin-top:10px;color:rgba(15,42,68,0.65);font-size:13px">You can answer a few quick questions about celebration plans on the next page.</div>
+      </div>
+
+      <div class="meta">
+        <button id="wishAgain" class="btn">Send another wish ✨</button>
+        <div class="attribution">Background image provided by Unsplash Source — replace the URL in the CSS to change it.</div>
+      </div>
+
+      <style>
+        /* slideshow: compact, accessible */
+        .slideshow{margin:18px auto 6px;max-width:820px;text-align:center}
+        .slideshow-controls{display:flex;gap:8px;justify-content:center;margin-bottom:12px}
+        .sl-tab{background:transparent;border:1px solid rgba(43,22,48,0.08);padding:8px 12px;border-radius:999px;cursor:pointer;font-weight:700;color:var(--accent)}
+        .sl-wrap{position:relative;border-radius:12px;padding:10px;background:linear-gradient(180deg,rgba(255,255,255,0.85),rgba(255,255,255,0.7));box-shadow:0 8px 30px rgba(12,10,10,0.06)}
+        .carousel{position:relative;display:flex;align-items:center;gap:12px;overflow:hidden}
+        .carousel .slides{display:flex;gap:12px;padding:0;margin:0;list-style:none;transition:transform .5s cubic-bezier(.2,.9,.2,1);width:100%}
+        .carousel .slides li{min-width:60%;max-width:60%;flex:0 0 60%;border-radius:10px;overflow:hidden}
+        .carousel img{width:100%;height:220px;object-fit:cover;display:block;cursor:pointer}
+        .carousel .prev,.carousel .next{background:rgba(255,255,255,0.9);border:0;padding:8px 10px;border-radius:8px;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,0.06)}
+        .carousel .indicators{position:absolute;left:50%;transform:translateX(-50%);bottom:8px;display:flex;gap:6px}
+        .carousel .indicators button{width:8px;height:8px;border-radius:50%;border:0;background:rgba(43,22,48,0.18)}
+        .carousel .indicators button.active{background:var(--accent)}
+        .sl-help{font-size:13px;color:rgba(43,22,48,0.55);margin-top:8px}
+
+        @media (max-width:560px){ .carousel .slides li{min-width:92%;max-width:92%} .carousel img{height:160px} }
+      </style>
+
+      <script>
+        (function(){
+          // Small accessible carousel used for both slideshows
+          function Carousel(root){
+            this.root = root;
+            this.slides = root.querySelectorAll('.slides li');
+            this.track = root.querySelector('.slides');
+            this.prev = root.querySelector('.prev');
+            this.next = root.querySelector('.next');
+            this.indicatorWrap = root.querySelector('.indicators');
+            this.index = 0;
+            this.count = this.slides.length;
+            this.interval = parseInt(root.dataset.interval || 3500,10);
+            this.autoplay = root.dataset.autoplay === 'true';
+            this.timer = null;
+            this._renderIndicators();
+            this._bind();
+            this.go(0);
+            if(this.autoplay) this.play();
+          }
+          Carousel.prototype._renderIndicators = function(){
+            for(let i=0;i<this.count;i++){const b = document.createElement('button'); b.dataset.idx = i; b.setAttribute('aria-label','Show slide '+(i+1)); if(i===0) b.classList.add('active'); this.indicatorWrap.appendChild(b);} 
+          }
+          Carousel.prototype._bind = function(){
+            this.next.addEventListener('click', ()=> this.nextSlide());
+            this.prev.addEventListener('click', ()=> this.prevSlide());
+            this.indicatorWrap.addEventListener('click', e=>{ if(e.target.dataset.idx) this.go(Number(e.target.dataset.idx)); });
+            this.root.addEventListener('mouseenter', ()=> this.pause());
+            this.root.addEventListener('focusin', ()=> this.pause());
+            this.root.addEventListener('mouseleave', ()=> this.play());
+            this.root.addEventListener('keydown', (e)=>{ if(e.key==='ArrowRight') this.nextSlide(); if(e.key==='ArrowLeft') this.prevSlide(); });
+            this.slides.forEach(imgLi=>{ const img = imgLi.querySelector('img'); img.addEventListener('click', ()=> window.open(img.src, '_blank')); });
+          }
+          Carousel.prototype.go = function(i){ this.index = (i + this.count) % this.count; const offset = -this.index * (this.slides[0].getBoundingClientRect().width + 12); this.track.style.transform = 'translateX('+offset+'px)'; Array.from(this.indicatorWrap.children).forEach((b,idx)=> b.classList.toggle('active', idx===this.index)); }
+          Carousel.prototype.nextSlide = function(){ this.go(this.index+1); }
+          Carousel.prototype.prevSlide = function(){ this.go(this.index-1); }
+          Carousel.prototype.play = function(){ if(!this.autoplay) return; this.pause(); this.timer = setInterval(()=> this.nextSlide(), this.interval); }
+          Carousel.prototype.pause = function(){ if(this.timer) clearInterval(this.timer); this.timer = null; }
+
+          // init both carousels
+          document.querySelectorAll('.carousel').forEach(c=> new Carousel(c));
+
+          // tabs to switch carousels
+          document.querySelectorAll('.sl-tab').forEach(btn=> btn.addEventListener('click', function(){
+            document.querySelectorAll('.sl-tab').forEach(b=> b.setAttribute('aria-selected','false'));
+            this.setAttribute('aria-selected','true');
+            const target = this.dataset.target;
+            document.querySelectorAll('.sl-wrap').forEach(w=> { w.hidden = w.id !== target; });
+          }));
+        })();
+      </script>
+    </div>
+  </div>
+
+  <!-- YouTube player container (kept tiny/off-screen so page looks clean) -->
+  <div id="yt-player-container" style="width:1px;height:1px;overflow:hidden;position:absolute;left:-9999px;top:0;">
+    <div id="ytplayer"></div>
+  </div>
+
+  <!-- Decorative hearts animation (respects prefers-reduced-motion) -->
+  <script>
+    (function(){
+      const canvas = document.getElementById('hearts');
+      if(!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let W = canvas.width = canvas.clientWidth || window.innerWidth;
+      let H = canvas.height = canvas.clientHeight || 600;
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      // If user prefers reduced motion, hide the canvas and rely on static background
+      if(reduceMotion){ canvas.style.display = 'none'; return; }
+
+      const colors = ['#ff6b81','#ff9aa2','#ffb7b2','#ffd93d','#66a9ff','#7bd389'];
+      function rand(min,max){ return Math.random()*(max-min)+min; }
+
+      function drawHeart(ctx,x,y,size,color,alpha,angle){
+        ctx.save();
+        ctx.translate(x,y);
+        ctx.rotate(angle);
+        ctx.scale(size/36, size/36);
+        ctx.beginPath();
+        ctx.moveTo(0, -12);
+        ctx.bezierCurveTo(12, -28, 36, -6, 0, 18);
+        ctx.bezierCurveTo(-36, -6, -12, -28, 0, -12);
+        ctx.closePath();
+        ctx.fillStyle = color;
+        ctx.globalAlpha = alpha;
+        ctx.fill();
+        ctx.restore();
+      }
+
+      let hearts = [];
+      function makeHeart(offsetY){
+        const size = rand(10,38);
+        return {
+          x: rand(0, W),
+          y: (offsetY!==undefined) ? rand(-offsetY, 0) : rand(-H, 0),
+          vx: rand(-0.3, 0.6),
+          vy: rand(0.5, 2.2),
+          size,
+          color: colors[Math.floor(rand(0, colors.length))],
+          rot: rand(-0.6,0.6),
+          angSpeed: rand(-0.02,0.02),
+          alpha: rand(0.6,1),
+          wobble: rand(0.5,2)
+        };
+      }
+
+      function init(){
+        hearts = [];
+        const count = Math.max(10, Math.floor((W/100)*6));
+        for(let i=0;i<count;i++) hearts.push(makeHeart(i*8));
+      }
+
+      function resize(){
+        W = canvas.width = canvas.clientWidth || window.innerWidth;
+        H = canvas.height = canvas.clientHeight || 600;
+        init();
+      }
+      window.addEventListener('resize', resize);
+      init();
+
+      let hidden = false;
+      document.addEventListener('visibilitychange', ()=> hidden = document.hidden);
+
+      function update(i){
+        const h = hearts[i];
+        h.y += h.vy;
+        h.x += Math.sin((h.y + i) / 20) * h.wobble + h.vx;
+        h.rot += h.angSpeed;
+        h.alpha = Math.max(0.18, h.alpha - 0.0008);
+        if(h.y > H + 30){
+          // small pop effect: replace with a larger, quickly-fading heart
+          hearts[i] = makeHeart(0);
+          hearts[i].y = rand(-40, -10);
+        }
+      }
+
+      function draw(){
+        ctx.clearRect(0,0,W,H);
+        for(let i=0;i<hearts.length;i++){
+          const h = hearts[i];
+          drawHeart(ctx, h.x, h.y, h.size, h.color, h.alpha, h.rot);
+        }
+      }
+
+      (function loop(){
+        if(!hidden){
+          for(let i=0;i<hearts.length;i++) update(i);
+          draw();
+        }
+        requestAnimationFrame(loop);
+      })();
+
+      // helper: trigger a short burst (used when user clicks wishAgain)
+      function burst(count){
+        for(let i=0;i<count;i++) hearts.push(makeHeart(0));
+        // cap
+        if(hearts.length > 120) hearts = hearts.slice(-120);
+      }
+      const wishBtn = document.getElementById('wishAgain');
+      if(wishBtn) wishBtn.addEventListener('click', ()=> burst(18));
+
+    })();
+  </script>
+
+  <!-- YouTube IFrame API -->
+  <script src="https://www.youtube.com/iframe_api"></script> 
+
+  <script>
+    /* ---------------------------
+       CONFETTI effect
+       --------------------------- */
+    (function(){
+      const canvas = document.getElementById('confetti');
+      const ctx = canvas.getContext('2d');
+      let W = canvas.width = canvas.clientWidth || window.innerWidth;
+      let H = canvas.height = canvas.clientHeight || 600;
+      const colors = ['#FF6B6B','#FFD93D','#6BCB77','#4D96FF','#B388EB','#ff9aa2','#ffb7b2'];
+      function rand(min,max){ return Math.random()*(max-min)+min; }
+      function makeParticle(yOffset){
+        return {
+          x: rand(0,W),
+          y: rand(-H, H) - (yOffset||0),
+          r: rand(6,12),
+          color: colors[Math.floor(rand(0,colors.length))],
+          tilt: rand(-12,12),
+          speed: rand(1.2,3.2),
+          angle: rand(0, Math.PI*2),
+          opacity: rand(0.8,1)
+        };
+      }
+      let particles = [];
+      function initParticles(){
+        particles = [];
+        const count = Math.max(24, Math.floor((W/100)*9));
+        for(let i=0;i<count;i++) particles.push(makeParticle(i*10));
+      }
+      function resize(){
+        W = canvas.width = canvas.clientWidth || window.innerWidth;
+        H = canvas.height = canvas.clientHeight || 600;
+        initParticles();
+      }
+      window.addEventListener('resize', resize);
+      initParticles();
+
+      function update(i){
+        const p = particles[i];
+        p.y += p.speed;
+        p.x += Math.sin(p.angle)*1.6;
+        p.angle += 0.02;
+        p.tilt += Math.cos(p.angle)*0.3;
+        if(p.y > H + 20) particles[i] = makeParticle(0);
+      }
+      function draw(){
+        ctx.clearRect(0,0,W,H);
+        for(let i=0;i<particles.length;i++){
+          const p = particles[i];
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.tilt * 0.02);
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = p.opacity;
+          ctx.fillRect(-p.r/2, -p.r/2, p.r, p.r*0.6);
+          ctx.restore();
+        }
+        ctx.globalAlpha = 1;
+      }
+      (function loop(){
+        for(let i=0;i<particles.length;i++) update(i);
+        draw();
+        requestAnimationFrame(loop);
+      })();
+
+      setTimeout(()=>{ particles = []; }, 12000);
+      document.getElementById('wishAgain').addEventListener('click', ()=>{
+        initParticles();
+        setTimeout(()=>{ particles = []; }, 12000);
+      });
+    })();
+
+    /* ---------------------------
+       YouTube background player
+       --------------------------- */
+    (function(){
+      // Provided YouTube link: https://www.youtube.com/watch?v=x_8eFWMB3ak&list=RDx_8eFWMB3ak&start_radio=1
+      const VIDEO_ID = 'x_8eFWMB3ak'; // extracted from URL
+      let player = null;
+      const toggleBtn = document.getElementById('ytToggle');
+      const audioNote = document.getElementById('audioNote');
+
+      // Called by YouTube IFrame API once it's ready
+      window.onYouTubeIframeAPIReady = function() {
+        player = new YT.Player('ytplayer', {
+          height: '1',
+          width: '1',
+          videoId: VIDEO_ID,
+          playerVars: {
+            autoplay: 1,
+            controls: 0,
+            loop: 1,
+            playlist: VIDEO_ID,
+            modestbranding: 1,
+            rel: 0,
+            disablekb: 1,
+            iv_load_policy: 3
+          },
+          events: {
+            onReady: onPlayerReady,
+            onStateChange: onPlayerStateChange
+          }
+        });
+      };
+
+      function onPlayerReady(event){
+        // Start muted (browsers allow muted autoplay)
+        try {
+          event.target.mute();
+          event.target.setVolume(60);
+          event.target.playVideo();
+        } catch (e) {
+          // ignore
+        }
+        updateToggleText();
+      }
+
+      function onPlayerStateChange(e){
+        if(e.data === YT.PlayerState.ENDED){
+          try { player.playVideo(); } catch(e){}
+        }
+      }
+
+      function updateToggleText(){
+        if(!player) {
+          toggleBtn.textContent = '⏳ Loading...';
+          toggleBtn.disabled = true;
+          return;
+        }
+        const muted = player.isMuted ? player.isMuted() : true;
+        toggleBtn.disabled = false;
+        if(muted){
+          toggleBtn.textContent = '🔊 Unmute';
+          toggleBtn.setAttribute('aria-pressed','false');
+        } else {
+          toggleBtn.textContent = '🔈 Mute';
+          toggleBtn.setAttribute('aria-pressed','true');
+        }
+      }
+
+      toggleBtn.addEventListener('click', async ()=>{
+        if(!player){
+          alert('Music is loading; please try again in a second.');
+          return;
+        }
+        try {
+          if(player.isMuted()){
+            player.unMute();
+            player.playVideo().catch(()=>{});
+          } else {
+            player.mute();
+          }
+        } catch(e){
+          // ignore
+        }
+        updateToggleText();
+      });
+
+      // If API fails to load in ~5s, show fallback note
+      setTimeout(()=>{
+        if(!player){
+          toggleBtn.textContent = 'Open on YouTube';
+          toggleBtn.onclick = ()=> window.open('https://www.youtube.com/watch?v=' + VIDEO_ID, '_blank');
+          audioNote.textContent = 'If autoplay blocked, click to open the song on YouTube.';
+          toggleBtn.disabled = false;
+        }
+      }, 5000);
+    })();
+
+    /* ---------------------------
+       Accessibility: announce message to screen readers
+       --------------------------- */
+    (function(){
+      const message = document.getElementById('message').innerText || '';
+      const live = document.createElement('div');
+      live.setAttribute('aria-live','polite');
+      live.style.position='absolute';
+      live.style.left='-9999px';
+      document.body.appendChild(live);
+      setTimeout(()=>{ live.textContent = message; }, 800);
+    })();
+  </script>
+</body>
+</html>
